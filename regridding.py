@@ -42,9 +42,11 @@ with h5py.File(f'{name_g}-rg_{name_l}_restart.hdf5','w') as rst_new:
         if 'aim' in d or 'Avg' in d:
             solver.create_dataset(d,data=rst[f'solver/{d}'])
         else:
-            d_ = np.reshape(rst[f'solver/{d}'],(-1,9))
+            d_ = np.reshape(np.reshape(rst[f'solver/{d}'],tuple(grid.cells[::-1])+(-1,)),(-1,9),order='F')
+            d_new = d_[old_to_new]
             shape = (3,3) if d == 'F_lastInc' else (9,)
-            solver.create_dataset(d,data=d_[old_to_new].reshape(tuple(cells_new[::-1])+shape))
+            d_new = d_new.reshape(tuple(cells_new[::-1])+(-1,),order='F').reshape(tuple(cells_new[::-1])+shape)
+            solver.create_dataset(d,data=d_new)
 
     phase = rst_new.create_group('phase')
     for p in rst['phase']:
