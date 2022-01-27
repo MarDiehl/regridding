@@ -13,8 +13,8 @@ loadstep:
             [x, 0, x],
             [x, x, 0]]
     discretization:
-      t: 10
-      N: 40
+      t: 1
+      N: 4
     f_out: none
   - boundary_conditions:
       mechanical:
@@ -25,7 +25,7 @@ loadstep:
             [x, 0, x],
             [x, x, 0]]
     discretization:
-      t: 120
-      N: 120
+      t: 1.2
+      N: 12
     f_out: none
-    f_restart: 80
+    f_restart: 10
